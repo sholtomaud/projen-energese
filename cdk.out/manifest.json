@@ -1,0 +1,119 @@
+{
+  "version": "14.0.0",
+  "artifacts": {
+    "Tree": {
+      "type": "cdk:tree",
+      "properties": {
+        "file": "tree.json"
+      }
+    },
+    "MyStack.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "MyStack.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "MyStack": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://434583088386/eu-central-1",
+      "properties": {
+        "templateFile": "MyStack.template.json",
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::434583088386:role/cdk-hnb659fds-deploy-role-434583088386-eu-central-1",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::434583088386:role/cdk-hnb659fds-cfn-exec-role-434583088386-eu-central-1",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-434583088386-eu-central-1/e459f4db26fabf707baaa89e719b503ebf94aa51a766f0e52a7622e9cd515932.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "MyStack.assets"
+        ]
+      },
+      "dependencies": [
+        "MyStack.assets"
+      ],
+      "metadata": {
+        "/MyStack/NftCheckStackTest/nftChecks/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "NftCheckStackTestnftChecksE95F60E7"
+          }
+        ],
+        "/MyStack/NftCheckStackTest/nftChecks/Policy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "NftCheckStackTestnftChecksPolicyCE080A50"
+          }
+        ],
+        "/MyStack/NftCheckStackTest/nftChecks/AutoDeleteObjectsCustomResource/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "NftCheckStackTestnftChecksAutoDeleteObjectsCustomResource84E0338E"
+          }
+        ],
+        "/MyStack/NftCheckStackTest/handler/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "NftCheckStackTesthandlerServiceRole8332EF8F"
+          }
+        ],
+        "/MyStack/NftCheckStackTest/handler/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "NftCheckStackTesthandlerServiceRoleDefaultPolicyB059179E"
+          }
+        ],
+        "/MyStack/NftCheckStackTest/handler/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "NftCheckStackTesthandlerD647D865"
+          }
+        ],
+        "/MyStack/NftCheckStackTest/nftCheckRule/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "NftCheckStackTestnftCheckRule88A89BCB"
+          }
+        ],
+        "/MyStack/NftCheckStackTest/nftCheckRule/AllowEventRuleMyStackNftCheckStackTesthandler6A088CF9": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "NftCheckStackTestnftCheckRuleAllowEventRuleMyStackNftCheckStackTesthandler6A088CF92CB37127"
+          }
+        ],
+        "/MyStack/Custom::S3AutoDeleteObjectsCustomResourceProvider/Role": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092"
+          }
+        ],
+        "/MyStack/Custom::S3AutoDeleteObjectsCustomResourceProvider/Handler": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomS3AutoDeleteObjectsCustomResourceProviderHandler9D90184F"
+          }
+        ],
+        "/MyStack/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/MyStack/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/MyStack/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "MyStack"
+    }
+  }
+}

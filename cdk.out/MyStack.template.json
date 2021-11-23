@@ -1,0 +1,370 @@
+{
+  "Resources": {
+    "NftCheckStackTestnftChecksE95F60E7": {
+      "Type": "AWS::S3::Bucket",
+      "Properties": {
+        "PublicAccessBlockConfiguration": {
+          "BlockPublicAcls": true,
+          "BlockPublicPolicy": true,
+          "IgnorePublicAcls": true,
+          "RestrictPublicBuckets": true
+        },
+        "Tags": [
+          {
+            "Key": "aws-cdk:auto-delete-objects",
+            "Value": "true"
+          }
+        ]
+      },
+      "UpdateReplacePolicy": "Delete",
+      "DeletionPolicy": "Delete",
+      "Metadata": {
+        "aws:cdk:path": "MyStack/NftCheckStackTest/nftChecks/Resource"
+      }
+    },
+    "NftCheckStackTestnftChecksPolicyCE080A50": {
+      "Type": "AWS::S3::BucketPolicy",
+      "Properties": {
+        "Bucket": {
+          "Ref": "NftCheckStackTestnftChecksE95F60E7"
+        },
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "s3:GetBucket*",
+                "s3:List*",
+                "s3:DeleteObject*"
+              ],
+              "Effect": "Allow",
+              "Principal": {
+                "AWS": {
+                  "Fn::GetAtt": [
+                    "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092",
+                    "Arn"
+                  ]
+                }
+              },
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "NftCheckStackTestnftChecksE95F60E7",
+                    "Arn"
+                  ]
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "NftCheckStackTestnftChecksE95F60E7",
+                          "Arn"
+                        ]
+                      },
+                      "/*"
+                    ]
+                  ]
+                }
+              ]
+            }
+          ],
+          "Version": "2012-10-17"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "MyStack/NftCheckStackTest/nftChecks/Policy/Resource"
+      }
+    },
+    "NftCheckStackTestnftChecksAutoDeleteObjectsCustomResource84E0338E": {
+      "Type": "Custom::S3AutoDeleteObjects",
+      "Properties": {
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "CustomS3AutoDeleteObjectsCustomResourceProviderHandler9D90184F",
+            "Arn"
+          ]
+        },
+        "BucketName": {
+          "Ref": "NftCheckStackTestnftChecksE95F60E7"
+        }
+      },
+      "DependsOn": [
+        "NftCheckStackTestnftChecksPolicyCE080A50"
+      ],
+      "UpdateReplacePolicy": "Delete",
+      "DeletionPolicy": "Delete",
+      "Metadata": {
+        "aws:cdk:path": "MyStack/NftCheckStackTest/nftChecks/AutoDeleteObjectsCustomResource/Default"
+      }
+    },
+    "NftCheckStackTesthandlerServiceRole8332EF8F": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition"
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+              ]
+            ]
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "MyStack/NftCheckStackTest/handler/ServiceRole/Resource"
+      }
+    },
+    "NftCheckStackTesthandlerServiceRoleDefaultPolicyB059179E": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "s3:DeleteObject*",
+                "s3:PutObject",
+                "s3:Abort*"
+              ],
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "NftCheckStackTestnftChecksE95F60E7",
+                    "Arn"
+                  ]
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "NftCheckStackTestnftChecksE95F60E7",
+                          "Arn"
+                        ]
+                      },
+                      "/*"
+                    ]
+                  ]
+                }
+              ]
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "NftCheckStackTesthandlerServiceRoleDefaultPolicyB059179E",
+        "Roles": [
+          {
+            "Ref": "NftCheckStackTesthandlerServiceRole8332EF8F"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "MyStack/NftCheckStackTest/handler/ServiceRole/DefaultPolicy/Resource"
+      }
+    },
+    "NftCheckStackTesthandlerD647D865": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": "cdk-hnb659fds-assets-434583088386-eu-central-1",
+          "S3Key": "5180f5e34a5efd334a0df09f0b1a41dfea8f0bc46cc818fbb42267c5cf995375.zip"
+        },
+        "Role": {
+          "Fn::GetAtt": [
+            "NftCheckStackTesthandlerServiceRole8332EF8F",
+            "Arn"
+          ]
+        },
+        "Environment": {
+          "Variables": {
+            "BUCKET_NAME": {
+              "Ref": "NftCheckStackTestnftChecksE95F60E7"
+            },
+            "CONTRACT_ADDRESS": "0x25ed58c027921e14d86380ea2646e3a1b5c55a8b",
+            "AWS_ACCOUNT_ID": "434583088386",
+            "REGION": "eu-central-1",
+            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1"
+          }
+        },
+        "Handler": "index.handler",
+        "Runtime": "nodejs14.x"
+      },
+      "DependsOn": [
+        "NftCheckStackTesthandlerServiceRoleDefaultPolicyB059179E",
+        "NftCheckStackTesthandlerServiceRole8332EF8F"
+      ],
+      "Metadata": {
+        "aws:cdk:path": "MyStack/NftCheckStackTest/handler/Resource",
+        "aws:asset:path": "/Users/sholtomaud/Development/pj-nft",
+        "aws:asset:property": "Code"
+      }
+    },
+    "NftCheckStackTestnftCheckRule88A89BCB": {
+      "Type": "AWS::Events::Rule",
+      "Properties": {
+        "ScheduleExpression": "rate(1 hour)",
+        "State": "ENABLED",
+        "Targets": [
+          {
+            "Arn": {
+              "Fn::GetAtt": [
+                "NftCheckStackTesthandlerD647D865",
+                "Arn"
+              ]
+            },
+            "Id": "Target0"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "MyStack/NftCheckStackTest/nftCheckRule/Resource"
+      }
+    },
+    "NftCheckStackTestnftCheckRuleAllowEventRuleMyStackNftCheckStackTesthandler6A088CF92CB37127": {
+      "Type": "AWS::Lambda::Permission",
+      "Properties": {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "NftCheckStackTesthandlerD647D865",
+            "Arn"
+          ]
+        },
+        "Principal": "events.amazonaws.com",
+        "SourceArn": {
+          "Fn::GetAtt": [
+            "NftCheckStackTestnftCheckRule88A89BCB",
+            "Arn"
+          ]
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "MyStack/NftCheckStackTest/nftCheckRule/AllowEventRuleMyStackNftCheckStackTesthandler6A088CF9"
+      }
+    },
+    "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com"
+              }
+            }
+          ]
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Sub": "arn:${AWS::Partition}:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "MyStack/Custom::S3AutoDeleteObjectsCustomResourceProvider/Role"
+      }
+    },
+    "CustomS3AutoDeleteObjectsCustomResourceProviderHandler9D90184F": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": "cdk-hnb659fds-assets-434583088386-eu-central-1",
+          "S3Key": "5fbfe1efe77b04e50e23d14e9303aad96acaa42769af974b6596427b2ed99b1f.zip"
+        },
+        "Timeout": 900,
+        "MemorySize": 128,
+        "Handler": "__entrypoint__.handler",
+        "Role": {
+          "Fn::GetAtt": [
+            "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092",
+            "Arn"
+          ]
+        },
+        "Runtime": "nodejs12.x",
+        "Description": {
+          "Fn::Join": [
+            "",
+            [
+              "Lambda function for auto-deleting objects in ",
+              {
+                "Ref": "NftCheckStackTestnftChecksE95F60E7"
+              },
+              " S3 bucket."
+            ]
+          ]
+        }
+      },
+      "DependsOn": [
+        "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092"
+      ],
+      "Metadata": {
+        "aws:cdk:path": "MyStack/Custom::S3AutoDeleteObjectsCustomResourceProvider/Handler"
+      }
+    },
+    "CDKMetadata": {
+      "Type": "AWS::CDK::Metadata",
+      "Properties": {
+        "Analytics": "v2:deflate64:H4sIAAAAAAAA/12P0WrDMAxFv6XvjpousPe20MdSsg8IrqMVJbENlp1SjP99TpytsKdzJV0O6ANqqCunoKl38smV6sdqojvELy/VKPKqi9xAPAU1ohfnb7OlgpudSL3e620uw0kyJjFJfe9lZ2yPA8N1xSUY5ckaQVJDbO2Ei2Ll21hSEtx0khk9w3HBJoSYK3+epY5OE3OeksAZTe7HNmzmzJTEObC3ukW2waly+M2rOv/8IPP417s5O1OPLonlBxh4Px8+4dBAvRuYqHLBeNIIbeEPP+StoFIBAAA="
+      },
+      "Metadata": {
+        "aws:cdk:path": "MyStack/CDKMetadata/Default"
+      }
+    }
+  },
+  "Parameters": {
+    "BootstrapVersion": {
+      "Type": "AWS::SSM::Parameter::Value<String>",
+      "Default": "/cdk-bootstrap/hnb659fds/version",
+      "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+    }
+  },
+  "Rules": {
+    "CheckBootstrapVersion": {
+      "Assertions": [
+        {
+          "Assert": {
+            "Fn::Not": [
+              {
+                "Fn::Contains": [
+                  [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5"
+                  ],
+                  {
+                    "Ref": "BootstrapVersion"
+                  }
+                ]
+              }
+            ]
+          },
+          "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+        }
+      ]
+    }
+  }
+}

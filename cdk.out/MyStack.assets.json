@@ -1,0 +1,48 @@
+{
+  "version": "14.0.0",
+  "files": {
+    "5fbfe1efe77b04e50e23d14e9303aad96acaa42769af974b6596427b2ed99b1f": {
+      "source": {
+        "path": "asset.5fbfe1efe77b04e50e23d14e9303aad96acaa42769af974b6596427b2ed99b1f",
+        "packaging": "zip"
+      },
+      "destinations": {
+        "434583088386-eu-central-1": {
+          "bucketName": "cdk-hnb659fds-assets-434583088386-eu-central-1",
+          "objectKey": "5fbfe1efe77b04e50e23d14e9303aad96acaa42769af974b6596427b2ed99b1f.zip",
+          "region": "eu-central-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::434583088386:role/cdk-hnb659fds-file-publishing-role-434583088386-eu-central-1"
+        }
+      }
+    },
+    "5180f5e34a5efd334a0df09f0b1a41dfea8f0bc46cc818fbb42267c5cf995375": {
+      "source": {
+        "path": "/Users/sholtomaud/Development/pj-nft",
+        "packaging": "zip"
+      },
+      "destinations": {
+        "434583088386-eu-central-1": {
+          "bucketName": "cdk-hnb659fds-assets-434583088386-eu-central-1",
+          "objectKey": "5180f5e34a5efd334a0df09f0b1a41dfea8f0bc46cc818fbb42267c5cf995375.zip",
+          "region": "eu-central-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::434583088386:role/cdk-hnb659fds-file-publishing-role-434583088386-eu-central-1"
+        }
+      }
+    },
+    "e459f4db26fabf707baaa89e719b503ebf94aa51a766f0e52a7622e9cd515932": {
+      "source": {
+        "path": "MyStack.template.json",
+        "packaging": "file"
+      },
+      "destinations": {
+        "434583088386-eu-central-1": {
+          "bucketName": "cdk-hnb659fds-assets-434583088386-eu-central-1",
+          "objectKey": "e459f4db26fabf707baaa89e719b503ebf94aa51a766f0e52a7622e9cd515932.json",
+          "region": "eu-central-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::434583088386:role/cdk-hnb659fds-file-publishing-role-434583088386-eu-central-1"
+        }
+      }
+    }
+  },
+  "dockerImages": {}
+}

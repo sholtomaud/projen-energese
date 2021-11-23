@@ -4,8 +4,15 @@ const project = new AwsCdkConstructLibrary({
   authorAddress: 'sholto.maud@gmail.com',
   cdkVersion: '1.95.2',
   defaultReleaseBranch: 'main',
+  region: 'eu-central-1',
+  account: '434583088386',
   name: 'pj-nft',
   repositoryUrl: 'https://github.com/Code-Bullet/Flappy-Bird-AI.git',
+  cdkVersion: '2.0.0-rc.30',
+  cdkDependencies: ['aws-cdk-lib'],
+  devDeps: ['constructs@10.0.5', 'esbuild', 'pre-commit', 'aws-cdk-lib@2.0.0-rc.30'],
+  deps: ['aws-sdk', 'jszip'],
+  bundledDeps: ['aws-sdk', 'jszip'],
 
   // cdkDependencies: undefined,      /* Which AWS CDK modules (those that start with "@aws-cdk/") does this library require when consumed? */
   // cdkTestDependencies: undefined,  /* AWS CDK modules required for testing. */

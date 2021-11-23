@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../functions/nftChecker/index.ts"],
+  "sourcesContent": ["const aws = require(\"aws-sdk\");\nconst { ethers } = require(\"ethers\");\n\nconst s3 = new aws.S3({ apiVersion: \"2006-03-01\" });\nconst contractAbi = [\"function totalSupply() external view returns (uint256)\"];\n\nconst { BUCKET_NAME, CONTRACT_ADDRESS } = process.env;\n\nexports.handler = async (event) => {\n    const provider = new ethers.providers.getDefaultProvider();\n    const contract = new ethers.Contract(CONTRACT_ADDRESS, contractAbi, provider);\n    const mintedTokens = await contract.totalSupply();\n\n    await s3.putObject({\n        Bucket: BUCKET_NAME,\n        Key: new Date().toISOString() + \".txt\",\n        Body: mintedTokens + \"\\n\",\n    }).promise();\n\n};"],
+  "mappings": "AAAA,GAAM,GAAM,QAAQ,WACd,CAAE,UAAW,QAAQ,UAErB,EAAK,GAAI,GAAI,GAAG,CAAE,WAAY,eAC9B,EAAc,CAAC,0DAEf,CAAE,cAAa,oBAAqB,QAAQ,IAElD,QAAQ,QAAU,KAAO,IAAU,CAC/B,GAAM,GAAW,GAAI,GAAO,UAAU,mBAEhC,EAAe,KAAM,AADV,IAAI,GAAO,SAAS,EAAkB,EAAa,GAChC,cAEpC,KAAM,GAAG,UAAU,CACf,OAAQ,EACR,IAAK,GAAI,QAAO,cAAgB,OAChC,KAAM,EAAe;AAAA,IACtB",
+  "names": []
+}
