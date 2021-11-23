@@ -2,7 +2,6 @@ const { AwsCdkConstructLibrary } = require('projen');
 const project = new AwsCdkConstructLibrary({
   author: 'Sholto Maud',
   authorAddress: 'sholto.maud@gmail.com',
-  cdkVersion: '1.95.2',
   defaultReleaseBranch: 'main',
   region: 'eu-central-1',
   account: '434583088386',
@@ -13,7 +12,15 @@ const project = new AwsCdkConstructLibrary({
   devDeps: ['constructs@10.0.5', 'esbuild', 'pre-commit', 'aws-cdk-lib@2.0.0-rc.30'],
   deps: ['aws-sdk', 'jszip'],
   bundledDeps: ['aws-sdk', 'jszip'],
-
+  python: {
+    distName: 'dev',
+    module: 'pj-nft',
+  },
+  packageName: 'pj-nft',
+  releaseEveryCommit: true,
+  catalog: {
+    twitter: 'shizzmd',
+  },
   // cdkDependencies: undefined,      /* Which AWS CDK modules (those that start with "@aws-cdk/") does this library require when consumed? */
   // cdkTestDependencies: undefined,  /* AWS CDK modules required for testing. */
   // deps: [],                        /* Runtime dependencies of this module. */
@@ -22,4 +29,6 @@ const project = new AwsCdkConstructLibrary({
   // packageName: undefined,          /* The "name" in package.json. */
   // release: undefined,              /* Add release management to this project. */
 });
+project.gitignore.exclude('cdk.out');
+project.npmignore.exclude('examples');
 project.synth();
